@@ -10,40 +10,46 @@
 
 package org.example;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Play play = new Play();
+        Execution execution = new Execution();
+
         Gamer gamer = new Gamer("Ivan");
         Gamer gamer1 = new Gamer("Oleg");
-//        Gamer gamer2 = new Gamer("Fedya");
-//        Gamer gamer3 = new Gamer("Janna");
-//        Gamer gamer4 = new Gamer("Jan");
-        gamer.addGames("GTA 1");
-        gamer.addGames("GTA 2");
-        gamer.addGames("GTA 3");
-        gamer.addGames("GTA 4");
-        gamer.addGames("GTA 5");
-        gamer1.addGames("GTA 10");
-        gamer1.addGames("GTA 20");
-        gamer1.addGames("GTA 3");
-        gamer1.addGames("GTA 40");
-        gamer1.addGames("GTA 5");
+        Gamer gamer2 = new Gamer("Jan");
+        Gamer gamer3 = new Gamer("Yana");
+        Gamer gamer4 = new Gamer("Oleg");
+        Gamer gamer5 = new Gamer("Fedya");
 
         System.out.println(play.addGamer(gamer));
-        System.out.println(play.addGamer(new Gamer("Ivan")));
         System.out.println(play.addGamer(gamer1));
+        System.out.println(play.addGamer(gamer2));
+        System.out.println(play.addGamer(gamer3));
+        System.out.println(play.addGamer(gamer4));
+        System.out.println(play.addGamer(gamer5));
 
-        play.simulatorRating(gamer, 200);
-        play.simulatorRating(gamer1, 200);
+        execution.gamerListGames(play);
+        execution.gamerGamesRating(play);
+
         System.out.println(play);
+        System.out.println();
+        System.out.println(gamer.getAllRating());
+        System.out.println(gamer1.getAllRating());
+        System.out.println(gamer2.getAllRating());
+        System.out.println(gamer3.getAllRating());
+        System.out.println(gamer5.getAllRating());
+        System.out.println();
         System.out.println(play.showGames());
+        Scanner in = new Scanner(System.in);
+//        System.out.println("search");
+//        String name = in.nextLine();
+//        String game = in.nextLine();
+//        System.out.println(play.ratingByNameAndGame(name, game));
 
-        String[] listGames = new String[]{Arrays.toString(eListGames.values())};
-        for (int i = 0; i < listGames.length; i++){
-            System.out.println(listGames[i]);
-        }
+
+        System.out.println(execution.top10ForGame(play, "Wii_Sports_Resort"));
     }
 }

@@ -1,12 +1,10 @@
 package org.example;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Gamer {
     private String name;
-//    private Integer rating;
+    private int allRating;
     private HashMap<String, Integer> games;
 
     public Gamer() {
@@ -16,13 +14,18 @@ public class Gamer {
     public Gamer(String name) {
         this.games = new HashMap<>();
         this.name = name;
+        this.allRating = 0;
     }
 
     public Gamer(String name, HashMap<String, Integer> games) {
         this.games = new HashMap<>();
         this.name = name;
-//        this.rating = getRatingGame(games.keySet().toString());
         this.games = games;
+        this.allRating = 0;
+    }
+
+    public void addGamesRat(String game, Integer value) {
+        this.games.put(game, value);
     }
 
     public void addGames(String game) {
@@ -37,6 +40,17 @@ public class Gamer {
         return "Игры в списке нет";
     }
 
+    //выводит есть ли игра в списке или нет
+    public boolean equalsNameGame(String nameGame) {
+        return games.containsKey(nameGame);
+    }
+
+    //вывод конкретной игры и рейтинга
+    public String returnGameAndRating(String nameGame) {
+        return String.format(" %s с рейтингом %s", nameGame, this.games.get(nameGame));
+    }
+
+    //выводит список игр
     public String[] getNameGame() {
         int i = 0;
         String[] strs = new String[this.games.size()];
@@ -46,12 +60,21 @@ public class Gamer {
         return strs;
     }
 
-    public Integer getRatingGame(String nameGame) {
+    //выводит список рейтингов
+    public int getRatingGame() {
+        int a = 0;
         for (Map.Entry<String, Integer> em : this.games.entrySet()) {
-            if (em.getKey().equals(nameGame))
-                return em.getValue();
+            a = em.getValue();
         }
-        return null;
+        return a;
+    }
+
+    //считает общий рейтинг
+    public int getAllRating() {
+        for (Map.Entry<String, Integer> em : this.games.entrySet()) {
+            this.allRating += em.getValue();
+        }
+        return this.allRating;
     }
 
     public HashMap<String, Integer> getGames() {
@@ -62,20 +85,37 @@ public class Gamer {
         return name;
     }
 
-//    public int getRating() {
-//        return rating;
-//    }
-
     public void upRating(String nameGame, boolean bool) {
-        this.games.put(nameGame, (this.games.get(nameGame)) + 1);
+        if (bool) {
+            this.games.put(nameGame, (this.games.get(nameGame)) + 1);
+        }
+    }
+
+    //компаратор для сортировки
+    public Gamer mySorted(Comparator comparator) {
+        Gamer res = new Gamer();
+        if (comparator.compare(res.getRatingGame(), this.getRatingGame()) > 0) {
+            res = this;
+        }
+        return res;
     }
 
     @Override
     public String toString() {
-        return "\nGamer{" +
-                "\nname='" + name + '\'' +
-                "\ngames=" + games +
-                '}';
+        return "\nGamer: " + name +
+                "\ngames: " + games +
+                "}\n";
+    }
+
+    public boolean equalsName(String o) {
+        if (this.name == o) {
+            return true;
+        } else {
+            return false;
+        }
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Gamer gamer = (Gamer) o;
+//        return Objects.equals(name, gamer.name);
     }
 
     @Override
@@ -89,5 +129,19 @@ public class Gamer {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public int compareTo(Gamer o2) {
+        int res = 0;
+        if (o2.getRatingGame() > this.getRatingGame()) {
+            res = 1;
+        }
+        else if (o2.getRatingGame() == this.getRatingGame()) {
+            res = 0;
+        }
+        else if (o2.getRatingGame() < this.getRatingGame()) {
+            res = -1;
+        }
+        return res;
     }
 }
